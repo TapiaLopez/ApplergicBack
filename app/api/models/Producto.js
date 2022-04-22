@@ -1,0 +1,14 @@
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const Producto = new Schema(
+  {
+    nombre: { type: String, required: true },
+    descripcion: { type: String, required: true },
+    ingredientes : [{ type: Schema.Types.ObjectId, ref: "Ingrediente", required: true }],
+    notas : [{ type: Schema.Types.ObjectId, ref: "Ingrediente", required: false }],
+    usuario : [{ type: Schema.Types.ObjectId, ref: "Usuario", required: false }] // No podemos crear un producto si no estamos loguinados por lo tanto, necesitamos un usuario vinculado al producto
+  },
+  { timestamps: true }
+);
+const producto = mongoose.model("Producto", Producto);
+module.exports = producto;
