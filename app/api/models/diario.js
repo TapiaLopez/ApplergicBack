@@ -1,11 +1,4 @@
 
-diario:
-
-comentario
-{ producto
-usuario
-}
-
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Diario = new Schema(
@@ -17,5 +10,5 @@ const Diario = new Schema(
 },
   { timestamps: true }
 );
-const diario = mongoose.model("Ingrediente", Ingrediente);
+const diario = mongoose.model("diario", Diario);
 module.exports = ingrediente;

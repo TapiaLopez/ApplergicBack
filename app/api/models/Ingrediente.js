@@ -3,8 +3,7 @@ const Schema = mongoose.Schema;
 const Ingrediente = new Schema(
   { 
     nombre: { type: String, required: true },
-    tipo: { type: String, required: true }, //alergia // intolerancia
-    notas: { type: String, required: true }, //alergia // intolerancia
+
   },
   { timestamps: true }
 );
