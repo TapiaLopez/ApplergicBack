@@ -11,7 +11,7 @@ const newDiario = async (req, res, next) => {
      
         newDiario.comentario = req.body.comentario;
         newDiario.producto = req.body.producto;
-        newDiario.usuario = req.body.usuario; //esperaremos múltiples ingredientes
+        newDiario.usuario = req.body.usuario; 
         
         const diarioSaved = await newDiario.save();
 
@@ -27,38 +27,16 @@ const newDiario = async (req, res, next) => {
     }
 
     const getAllDiario = async (req, res, next) => {
-   
+      const { idUsuario } = req.params;
+
         try {
-          const diario = await Producto.find().populate("producto");
-          return res.status(200).json(Producto);
+          const diario = await Diario.find({ usuario: idUsuario});
+          return res.status(200).json(diario);
         } catch (error) {
           return next(error);
         }
       };
-      router.post("/createDiario", async (req, res, next) => {
-        try {
-          const newDiario = new Diario({
-            comentario: req.body.comentario,
-            producto: req.body.producto,
-            usuario: req.body,usuario
-          });
       
-          const createdDiario = await newDiario.save();
-          return res.status(201).json(createdDiario);
-        } catch (error) {
-          next(error);
-        }
-      });     
-      router.get("/searchByproducto/:producto", async (req, res, next) => {
-        const { producto } = req.params;
-      
-        try {
-          const diarioByproducto = await Diario.find({ producto });
-          return res.status(200).json(diarioByproducto);
-        } catch (error) {
-          return next(error);
-        }
-      });
 
       const getDiarioById = async (req, res, next) => {
          
@@ -80,13 +58,22 @@ const newDiario = async (req, res, next) => {
       const deleteDiarioById = async (req, res, next) => {
               
         try {
-          const { diarioId } = req.params;
+          const { idDiario } = req.params;
           //const authority = req.authority.id
-          const userDiario = await Diario.findById(diarioId)
-      
+          const userDiario = await Diario.findById(idDiario)
+          if (!userDiario) {
+            return res.json({
+              status: 404,
+              message: HTTPSTATUSCODE[404],
+              data: { diario: null }
+            });
+          }
+          else {
+
+         
           //if (authority == userLibro.author._id) {
       
-            const diarioDeleted = await Diario.findByIdAndDelete(diarioId);
+            const diarioDeleted = await Diario.findByIdAndDelete(idDiario);
             if (!diarioDeleted) {
               return res.json({
                 status: 200,
@@ -96,9 +83,10 @@ const newDiario = async (req, res, next) => {
               return res.json({
                 status: 200,
                 message: HTTPSTATUSCODE[200],
-                data: { diario: diarioDeleted },
+                data: { diario: null },
               });
             }
+          }
           /*} else {
             return res.json({
               status: 403,
@@ -114,25 +102,34 @@ const newDiario = async (req, res, next) => {
       const updateDiarioById = async (req, res, next) => {
               
         try {
-          const { diarioId } = req.params;
+          const { idDiario } = req.params;
           //const authority = req.authority.id
-          const userDiario = await Diario.findById(DiarioId)
-      
+          const userDiario = await Diario.findById(idDiario)
+          console.log(idDiario)
           //if (authority == userLibro.author._id) {
-      
+            if (!userDiario) {
+              return res.json({
+                status: 404,
+                message: HTTPSTATUSCODE[404],
+                data: { diarios: null }
+              });
+            }
+            else {
             const diarioToUpdate = new Diario();
-            if (req.body.comentario) productoToUpdate.comentario = req.body.comentario;
-            if (req.body.producto) productoToUpdate.producto = req.body.producto;
-            if (req.body.usuario) productoToUpdate.usuario = req.body.usuario;
+            if (req.body.comentario) diarioToUpdate.comentario = req.body.comentario;
+            if (req.body.producto) diarioToUpdate.producto = req.body.producto;
+            if (req.body.usuario) diarioToUpdate.usuario = req.body.usuario;
       
-            diarioToUpdate._id = diarioId;
-            const diarioUpdated = await diarioToUpdate.findByIdAndUpdate(diarioId, diarioToUpdate);
+            diarioToUpdate._id = idDiario;
+            await Diario.findByIdAndUpdate(idDiario, diarioToUpdate);
+            const response = await Diario.findById(idDiario)
+
             return res.json({
               status: 200,
               message: HTTPSTATUSCODE[200],
-              data: { diarios: diarioUpdated }
+              data: { diarios: response }
             });
-     
+            }
       
         } catch (err) {
           return next(err);

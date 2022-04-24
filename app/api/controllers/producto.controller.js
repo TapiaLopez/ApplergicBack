@@ -9,7 +9,7 @@ const newProducto = async (req, res, next) => {
     try {
       const newProducto = new Producto();
      
-        newProducto.nombre = req.body.name;
+        newProducto.nombre = req.body.nombre;
         newProducto.description = req.body.description;
         newProducto.ingredientes = req.body.ingredientes; //esperaremos múltiples ingredientes
         
@@ -29,38 +29,13 @@ const newProducto = async (req, res, next) => {
     const getAllProductos = async (req, res, next) => {
    
         try {
-          const productos = await Pais.find().populate("cities");
-          return res.status(200).json(paises);
+          const productos = await Producto.find();
+          return res.status(200).json(productos);
         } catch (error) {
           return next(error);
         }
       };
-      router.post("/createProducto", async (req, res, next) => {
-        try {
-          const newProducto = new Producto({
-            nombre: req.body.nombre,
-            descripcion: req.body.descripcion,
-            ingredientes: req.body.ingredientes,
-            notas: req.body.notas,
-            usuario: req.body,usuario
-          });
-      
-          const createdProducto = await newProducto.save();
-          return res.status(201).json(createdProducto);
-        } catch (error) {
-          next(error);
-        }
-      });     
-      router.get("/searchByName/:name", async (req, res, next) => {
-        const { name } = req.params;
-      
-        try {
-          const productoByName = await Producto.find({ name });
-          return res.status(200).json(productoByName);
-        } catch (error) {
-          return next(error);
-        }
-      });
+
 
       const getProductoById = async (req, res, next) => {
          
@@ -88,8 +63,8 @@ const newProducto = async (req, res, next) => {
       
           //if (authority == userLibro.author._id) {
       
-            const productoDeleted = await Producto.findByIdAndDelete(productoId);
-            if (!productoDeleted) {
+            const deleteProductoById = await Producto.findByIdAndDelete(productoId);
+            if (!deleteProductoById) {
               return res.json({
                 status: 200,
                 data: null
@@ -98,7 +73,7 @@ const newProducto = async (req, res, next) => {
               return res.json({
                 status: 200,
                 message: HTTPSTATUSCODE[200],
-                data: { productos: productoDeleted },
+                data: null
               });
             }
           /*} else {
@@ -118,24 +93,37 @@ const newProducto = async (req, res, next) => {
         try {
           const { productoId } = req.params;
           //const authority = req.authority.id
-          const userProducto = await Producto.findById(productoId)
-      
-          //if (authority == userLibro.author._id) {
-      
-            const productoToUpdate = new Producto();
-            if (req.body.nombre) productoToUpdate.nombre = req.body.nombre;
-            if (req.body.descripcion) productoToUpdate.descripcion = req.body.descripcion;
-            if (req.body.ingredientes) productoToUpdate.ingredientes = req.body.ingredientes;
-            if (req.body.notas) productoToUpdate.notas = req.body.notas;
-            if (req.body.usuario) productoToUpdate.usuario = req.body.usuario;
-      
-            productoToUpdate._id = productoId;
-            const productoUpdated = await productoToUpdate.findByIdAndUpdate(productoId, productoToUpdate);
-            return res.json({
-              status: 200,
-              message: HTTPSTATUSCODE[200],
-              data: { productos: productoUpdated }
-            });
+            const userProducto = await Producto.findById(productoId)
+            console.log(userProducto)
+            console.log(productoId)
+            //if (authority == userLibro.author._id) {
+            if (!userProducto) {
+              return res.json({
+                status: 404,
+                message: HTTPSTATUSCODE[404],
+                data: { productos: null }
+              });
+            }
+            else {
+              const productoToUpdate = new Producto();
+              if (req.body.nombre) productoToUpdate.nombre = req.body.nombre;
+              if (req.body.description) productoToUpdate.descripcion = req.body.description;
+              if (req.body.ingredientes) productoToUpdate.ingredientes = req.body.ingredientes;
+              if (req.body.notas) productoToUpdate.notas = req.body.notas;
+              //if (req.body.usuario) productoToUpdate.usuario = req.body.usuario;
+        
+              productoToUpdate._id = productoId;
+              console.log(productoId)
+              console.log(productoToUpdate)
+              const productoUpdated = await Producto.findByIdAndUpdate(productoId, productoToUpdate);
+              console.log(productoUpdated)
+              return res.json({
+                status: 200,
+                message: HTTPSTATUSCODE[200],
+                data: { productos: productoUpdated }
+              });
+            }
+
           /*} else {
             return res.json({
               status: 403,
