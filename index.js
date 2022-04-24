@@ -6,7 +6,7 @@ const { connect } = require("./app/api/config/db");
 // const ciudadesRoutes = require("./api/routes/ciudades.routes");
 // const paisesRoutes = require("./api/routes/paises.routes");
 const usersRoutes = require("./app/api/routes/user.routes");
-//const ingredienteRoutes = require("./app/api/routes/ingrediente.routes");
+const ingredienteRoutes = require("./app/api/routes/ingrediente.routes");
 
 
 
@@ -43,7 +43,7 @@ server.use(express.urlencoded({ extended: true }));
 // server.use("/ciudades", ciudadesRoutes);
 // server.use("/paises", paisesRoutes);
 server.use("/users", usersRoutes);
-//server.use("/ingredientes", ingredienteRoutes);
+server.use("/ingredientes", ingredienteRoutes);
 
 server.listen(PORT, () => {
   console.log(`Server listening on port http://localhost:${PORT}`);
