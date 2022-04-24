@@ -3,7 +3,7 @@ const router = express.Router();
 const { newIngredientes, getAllIngredientes} = require("../controllers/ingrediente.controller");
 
 router.post("/newIngrediente", newIngredientes);
-router.post("/getAllIngredientes", getAllIngredientes);
+router.get("/getAllIngredientes", getAllIngredientes);
 
 
 module.exports = router;    

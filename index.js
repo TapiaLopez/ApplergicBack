@@ -3,10 +3,11 @@ const cors = require("cors");
 const logger = require("morgan");
 const { connect } = require("./app/api/config/db");
 
-// const ciudadesRoutes = require("./api/routes/ciudades.routes");
-// const paisesRoutes = require("./api/routes/paises.routes");
+
 const usersRoutes = require("./app/api/routes/user.routes");
 const ingredienteRoutes = require("./app/api/routes/ingrediente.routes");
+const productoRoutes = require ("./app/api/routes/producto.routes")
+const diarioRoutes = require ("./app/api/routes/diario.routes")
 
 
 
@@ -34,16 +35,16 @@ server.use(
 //DEFINO LA SECRETKEY
 server.set("secretKey", "supercalifragilisticuespialodoso");
 
-//USO EL LOGGER
 server.use(logger("dev"));
 
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 
-// server.use("/ciudades", ciudadesRoutes);
-// server.use("/paises", paisesRoutes);
+
 server.use("/users", usersRoutes);
 server.use("/ingredientes", ingredienteRoutes);
+server.use("/productos", productoRoutes)
+server.use("/diario", diarioRoutes)
 
 server.listen(PORT, () => {
   console.log(`Server listening on port http://localhost:${PORT}`);
