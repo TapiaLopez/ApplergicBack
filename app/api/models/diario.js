@@ -11,4 +11,4 @@ const Diario = new Schema(
   { timestamps: true }
 );
 const diario = mongoose.model("diario", Diario);
-module.exports = ingrediente;
+module.exports = diario;
