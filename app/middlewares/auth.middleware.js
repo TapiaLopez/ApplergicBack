@@ -5,6 +5,7 @@ const HTTPSTATUSCODE = require("../utils/httpStatusCode")
 
 const isAuth = (req, res, next) => {
     const authorization = req.headers.authorization;
+    console.log(authorization);
     if(!authorization){
         return res.json({
             status: 401,

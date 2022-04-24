@@ -36,7 +36,7 @@ const authenticate = async (req, res, next) => {
 
   try {
     const userInfo = await User.findOne({ email: req.body.email })
-
+    console.log(userInfo)
     //comprobar parametros correctos (naming)
     if (bcrypt.compareSync(req.body.password, userInfo.password)) {
       userInfo.password = null

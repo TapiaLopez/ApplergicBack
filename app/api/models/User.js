@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
+const saltRounds = 10;
 const User = new Schema(
   {
     email: { type: String, required: true },
@@ -21,5 +23,9 @@ const User = new Schema(
   },
   { timestamps: true }
 );
+User.pre("save", function (next) {
+  this.password = bcrypt.hashSync(this.password, saltRounds);
+  next();
+});
 const user = mongoose.model("User", User);
 module.exports = user;
