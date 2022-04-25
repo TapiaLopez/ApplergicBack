@@ -12,7 +12,7 @@ const User = new Schema(
     fotoUrl: { type: String, required: false },
     nombreContactoEmergencia: { type: String, required: false },
     correoContactoEmergencia: { type: String, required: false },
-    telefonoContactoEmergencia: { type: String, required: false },
+    telefonoContactoEmergencia: { type: Number, required: false },
     polizaSeguros: { type: String, required: false },
     puntuacion : {type: Number},
     productosFavoritos : [{ type: Schema.Types.ObjectId, ref: "Productos", required: false }],

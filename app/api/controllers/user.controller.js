@@ -13,6 +13,17 @@ const createUser = async (req, res, next) => {
     newUser.nombre = req.body.nombre;
     newUser.correo = req.body.correo;
     newUser.password = req.body.password;
+    newUser.direccion = req.body.direccion;
+    newUser.telefono = req.body.telefono;
+    newUser.nombreContactoEmergencia = req.body.nombreContactoEmergencia;
+    newUser.correoContactoEmergencia = req.body.correoContactoEmergencia;
+    newUser.telefonoContactoEmergencia = req.body.telefonoContactoEmergencia;
+    newUser.polizaSeguros = req.body.polizaSeguros;
+    newUser.puntuacion = req.body.puntuacion;
+    newUser.productosFavoritos = req.body.productosFavoritos;
+    newUser.productosDiarios = req.body.productosDiarios;
+    newUser.ingredientes = req.body.ingredientes;
+    newUser.diario = req.body.diario;
 
     const UserDb = await newUser.save();
 
@@ -71,14 +82,11 @@ const logout = (req, res, next) => {
 };
 
 const getUserById = async (req, res, next) => {
-         
   try {
     const { id } = req.params;
-              
-    const user = await User.findById(id).populate("ingredientes");
-   
 
-         
+    const user = await User.findById(id).populate("ingredientes");
+
     return res.json({
       status: 200,
       message: HTTPSTATUSCODE[200],
@@ -92,9 +100,9 @@ const getUserById = async (req, res, next) => {
 const updateUserById = async (req, res, next) => {
   try {
     const { id } = req.params;
-   
+
     const user = await User.findById(id);
-  
+
     if (!user) {
       return res.json({
         status: 404,
@@ -102,14 +110,23 @@ const updateUserById = async (req, res, next) => {
         data: { usuario: null },
       });
     } else {
-      
       user.nombre = req.body.nombre;
+      user.correo = req.body.correo;
+      user.password = req.body.password;
+      user.direccion = req.body.direccion;
+      user.telefono = req.body.telefono;
+      user.nombreContactoEmergencia = req.body.nombreContactoEmergencia;
+      user.correoContactoEmergencia = req.body.correoContactoEmergencia;
+      user.telefonoContactoEmergencia = req.body.telefonoContactoEmergencia;
+      user.polizaSeguros = req.body.polizaSeguros;
+      user.puntuacion = req.body.puntuacion;
+      user.productosFavoritos = req.body.productosFavoritos;
+      user.productosDiarios = req.body.productosDiarios;
+      user.diario = req.body.diario;
       user.ingredientes = req.body.ingredientes;
 
-    
-
       const userUpdated = await user.save();
-      
+
       return res.json({
         status: 200,
         message: HTTPSTATUSCODE[200],
@@ -126,5 +143,5 @@ module.exports = {
   authenticate,
   logout,
   updateUserById,
-  getUserById
+  getUserById,
 };
