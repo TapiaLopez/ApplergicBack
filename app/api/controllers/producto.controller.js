@@ -10,7 +10,7 @@ const newProducto = async (req, res, next) => {
       const newProducto = new Producto();
      
         newProducto.nombre = req.body.nombre;
-        newProducto.description = req.body.description;
+        newProducto.descripcion = req.body.descripcion;
         newProducto.ingredientes = req.body.ingredientes; //esperaremos múltiples ingredientes
         
         const productSaved = await newProducto.save();
@@ -107,9 +107,9 @@ const newProducto = async (req, res, next) => {
             else {
               const productoToUpdate = new Producto();
               if (req.body.nombre) productoToUpdate.nombre = req.body.nombre;
-              if (req.body.description) productoToUpdate.descripcion = req.body.description;
+              if (req.body.descripcion) productoToUpdate.descripcion = req.body.descripcion;
               if (req.body.ingredientes) productoToUpdate.ingredientes = req.body.ingredientes;
-              if (req.body.notas) productoToUpdate.notas = req.body.notas;
+              if (req.body.diario) productoToUpdate.diario = req.body.diario;
               //if (req.body.usuario) productoToUpdate.usuario = req.body.usuario;
         
               productoToUpdate._id = productoId;
