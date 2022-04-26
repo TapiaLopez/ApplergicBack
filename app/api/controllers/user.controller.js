@@ -110,20 +110,20 @@ const updateUserById = async (req, res, next) => {
         data: { usuario: null },
       });
     } else {
-      user.nombre = req.body.nombre;
-      user.correo = req.body.correo;
-      user.password = req.body.password;
-      user.direccion = req.body.direccion;
-      user.telefono = req.body.telefono;
-      user.nombreContactoEmergencia = req.body.nombreContactoEmergencia;
-      user.correoContactoEmergencia = req.body.correoContactoEmergencia;
-      user.telefonoContactoEmergencia = req.body.telefonoContactoEmergencia;
-      user.polizaSeguros = req.body.polizaSeguros;
-      user.puntuacion = req.body.puntuacion;
-      user.productosFavoritos = req.body.productosFavoritos;
-      user.productosDiarios = req.body.productosDiarios;
-      user.diario = req.body.diario;
-      user.ingredientes = req.body.ingredientes;
+      user.nombre = req.body.nombre ? req.body.nombre : user.nombre ;
+      user.correo = req.body.correo  ? req.body.correo : user.correo;
+      //user.password = req.body.password ;
+      user.direccion = req.body.direccion  ? req.body.direccion : user.direccion;
+      user.telefono = req.body.telefono  ? req.body.telefono : user.telefono;
+      user.nombreContactoEmergencia = req.body.nombreContactoEmergencia  ? req.body.nombreContactoEmergencia : user.nombreContactoEmergencia;
+      user.correoContactoEmergencia = req.body.correoContactoEmergencia  ? req.body.correoContactoEmergencia : user.correoContactoEmergencia;
+      user.telefonoContactoEmergencia = req.body.telefonoContactoEmergencia  ? req.body.telefonoContactoEmergencia : user.telefonoContactoEmergencia;
+      user.polizaSeguros = req.body.polizaSeguros  ? req.body.polizaSeguros : user.polizaSeguros;
+      user.puntuacion = req.body.puntuacion  ? req.body.puntuacion : user.puntuacion;
+      user.productosFavoritos = req.body.productosFavoritos  ? req.body.productosFavoritos : user.productosFavoritos;
+      user.productosDiarios = req.body.productosDiarios  ? req.body.productosDiarios : user.productosDiarios;
+      user.diario = req.body.diario  ? req.body.diario : user.diario;
+      user.ingredientes = req.body.ingredientes  ? req.body.ingredientes : user.ingredientes;
 
       const userUpdated = await user.save();
 
