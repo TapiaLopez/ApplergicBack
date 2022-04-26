@@ -10,5 +10,4 @@ router.put("/updateDiarioById/:idDiario", updateDiarioById);
 
 
 
-
-module.exports = router;    
+module.exports = router;
