@@ -11,6 +11,7 @@ const newProducto = async (req, res, next) => {
      
         newProducto.nombre = req.body.nombre;
         newProducto.descripcion = req.body.descripcion;
+        newProducto.codigo = req.body.codigo;
         newProducto.ingredientes = req.body.ingredientes; //esperaremos múltiples ingredientes
         
         const productSaved = await newProducto.save();

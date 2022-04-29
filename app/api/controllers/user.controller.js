@@ -3,14 +3,18 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const HTTPSTATUSCODE = require("../../utils/httpStatusCode");
+// const {upload,uploadToCloudinary}= require('../../middlewares/file.middlewares')
 //USUARIO SINGLE -> CREATE
 //USUARIO UPDATE -> UPDATE
+
+
 
 const createUser = async (req, res, next) => {
   try {
     const newUser = new User();
-
+    console.log(req.body)
     newUser.nombre = req.body.nombre;
+    // newUser.fotoUrl = req.body.file_url;
     newUser.correo = req.body.correo;
     newUser.password = req.body.password;
     newUser.direccion = req.body.direccion;
@@ -24,6 +28,7 @@ const createUser = async (req, res, next) => {
     newUser.productosDiarios = req.body.productosDiarios;
     newUser.ingredientes = req.body.ingredientes;
     newUser.diario = req.body.diario;
+    newUser.fotoUrl = req.fotoUrl;
 
     const UserDb = await newUser.save();
 
@@ -39,10 +44,16 @@ const createUser = async (req, res, next) => {
 
 const authenticate = async (req, res, next) => {
   try {
+    console.log(req.body.correo)
     const userInfo = await User.findOne({ correo: req.body.correo });
     console.log(userInfo);
     //comprobar parametros correctos (naming)
+    console.log(req.body.password)
+    console.log(userInfo.password)
+    console.log("b4 bcrypt")
+
     if (bcrypt.compareSync(req.body.password, userInfo.password)) {
+      console.log("he pasado bcrypt")
       userInfo.password = null;
       const token = jwt.sign(
         {
@@ -138,6 +149,26 @@ const updateUserById = async (req, res, next) => {
   }
 };
 
+
+/*const createUploadPic = async (req, res, next) => {
+  try {
+    const characterPicture = req.file ? req.file.filename : null;
+    // Crearemos una instancia de character con los datos enviados
+    const newCharacter = new Character({
+        name: req.body.name,
+        age: req.body.age,
+        alias: req.body.alias,
+        role: req.body.role,
+        picture: characterPicture
+    });
+    // Guardamos el personaje en la DB
+    const createdCharacter = await newCharacter.save();
+    return res.status(201).json(createdCharacter);
+} catch (error) {
+    // Lanzamos la función next con el error para que lo gestione Express
+    next(error);
+}
+}*/
 module.exports = {
   createUser,
   authenticate,
