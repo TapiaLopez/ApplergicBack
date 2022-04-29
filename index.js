@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const logger = require("morgan");
 const { connect } = require("./app/api/config/db");
+var bodyParser = require('body-parser')
 
 
 const usersRoutes = require("./app/api/routes/user.routes");
@@ -38,7 +39,12 @@ server.set("secretKey", "supercalifragilisticuespialodoso");
 server.use(logger("dev"));
 
 server.use(express.json());
-server.use(express.urlencoded({ extended: true }));
+//server.use(express.urlencoded({ extended: true }));
+
+server.use(bodyParser.urlencoded({
+        extended: false
+}));
+server.use(bodyParser.json());
 
 
 server.use("/users", usersRoutes);
